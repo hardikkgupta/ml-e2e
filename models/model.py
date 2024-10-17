@@ -38,8 +38,8 @@ def train_and_save_model():
 
     numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
     categorical_cols = X.select_dtypes(include=['object', 'category']).columns.tolist()
-    # print("\nNumerical Columns:", numerical_cols)
-    # print("Categorical Columns:", categorical_cols)
+    print("\nNumerical Columns:", numerical_cols)
+    print("Categorical Columns:", categorical_cols)
 
     numerical_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='median')),

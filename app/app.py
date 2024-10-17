@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import os
 from utils import load_model, validate_input, format_prediction, handle_exception
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -14,6 +15,7 @@ try:
     numerical_cols = model.named_steps['preprocessor'].transformers_[0][2]
     categorical_cols = model.named_steps['preprocessor'].transformers_[1][2]
     expected_features = numerical_cols + categorical_cols
+    print(f"Expected features: {expected_features}")
     print("Model and features loaded successfully.")
 except Exception as e:
     # If the model fails to load, log the error and exit
@@ -30,8 +32,16 @@ def predict():
         # Validate and extract feature values
         feature_values = validate_input(features, expected_features)
 
+        ###########
+        feature_values_df = pd.DataFrame([feature_values], columns=expected_features)
+        print(f"Feature Values DataFrame:\n{feature_values_df}")
+        print(f"Data Types of Feature Values:\n{feature_values_df.dtypes}")
+        prediction = model.predict(feature_values_df)
+        ###########
+
         # Make prediction using the model
-        prediction = model.predict([feature_values])
+        # prediction = model.predict([feature_values])
+        
 
         # Format the prediction for response
         result = format_prediction(prediction)
@@ -45,4 +55,4 @@ def predict():
 
 if __name__ == '__main__':
     # Run the Flask app
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)
