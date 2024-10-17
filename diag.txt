@@ -1,0 +1,35 @@
+my-ml-project/
+│
+├── assets/
+│   ├── flowchart.png
+│   └── architecture-diagram.png
+│
+├── .github/
+│   └── workflows/
+│       ├── ci-cd.yml
+│       └── retrain.yml
+│
+├── app/
+│   ├── __init__.py
+│   ├── app.py
+│   ├── model.pkl
+│   └── utils.py
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── external/
+│
+├── models/
+│   └── train_model.py
+│
+├── tests/
+│   ├── test_app.py
+│   └── test_utils.py
+│
+├── Dockerfile
+├── requirements.txt
+├── retrain.py
+├── locustfile.py
+├── README.md
+└── .gitignore
