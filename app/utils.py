@@ -68,7 +68,8 @@ def format_prediction(prediction: Any) -> Dict[str, Any]:
     - Dict[str, Any]: Dictionary containing the prediction.
     """
     try:
-        result = {'prediction': int(prediction[0])}
+        # result = {'prediction': int(prediction[0])}
+        result = {'prediction': int(prediction)}
         logging.info(f"Formatted prediction: {result}")
         return result
     except Exception as e:

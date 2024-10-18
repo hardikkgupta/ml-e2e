@@ -3,6 +3,7 @@ import os
 from utils import load_model, validate_input, format_prediction, handle_exception
 import pandas as pd
 
+
 app = Flask(__name__)
 
 # Define the path to the model
@@ -33,9 +34,10 @@ def predict():
         feature_values = validate_input(features, expected_features)
 
         ###########
+        # Convert feature values into a DataFrame with the expected feature columns
         feature_values_df = pd.DataFrame([feature_values], columns=expected_features)
-        print(f"Feature Values DataFrame:\n{feature_values_df}")
-        print(f"Data Types of Feature Values:\n{feature_values_df.dtypes}")
+        # print(f"Feature Values DataFrame:\n{feature_values_df}")
+        # print(f"Data Types of Feature Values:\n{feature_values_df.dtypes}")
         prediction = model.predict(feature_values_df)
         ###########
 
@@ -55,4 +57,4 @@ def predict():
 
 if __name__ == '__main__':
     # Run the Flask app
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5000)
