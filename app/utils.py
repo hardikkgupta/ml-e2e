@@ -1,10 +1,11 @@
 import joblib
-import os
+# import os
 from typing import List, Dict, Any
 import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def load_model(model_path: str = 'model.pkl'):
     """
@@ -27,12 +28,14 @@ def load_model(model_path: str = 'model.pkl'):
         logging.error(f"An error occurred while loading the model: {e}")
         raise RuntimeError(f"An error occurred while loading the model: {e}")
 
+
 def validate_input(features: Dict[str, Any], expected_features: List[str]) -> List[Any]:
     """
     Validate and extract feature values from the input dictionary.
 
     Parameters:
-    - features (Dict[str, Any]): Dictionary containing feature names and their corresponding values.
+    - features (Dict[str, Any]): Dictionary containing feature names and their 
+      corresponding values.
     - expected_features (List[str]): List of feature names expected by the model.
 
     Returns:
@@ -57,6 +60,7 @@ def validate_input(features: Dict[str, Any], expected_features: List[str]) -> Li
 
     return feature_values
 
+
 def format_prediction(prediction: Any) -> Dict[str, Any]:
     """
     Format the prediction result into a dictionary.
@@ -68,13 +72,13 @@ def format_prediction(prediction: Any) -> Dict[str, Any]:
     - Dict[str, Any]: Dictionary containing the prediction.
     """
     try:
-        # result = {'prediction': int(prediction[0])}
         result = {'prediction': int(prediction)}
         logging.info(f"Formatted prediction: {result}")
         return result
     except Exception as e:
         logging.error(f"Error formatting prediction: {e}")
         raise ValueError(f"Error formatting prediction: {e}")
+
 
 def handle_exception(e: Exception) -> Dict[str, Any]:
     """
