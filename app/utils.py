@@ -1,5 +1,4 @@
 import joblib
-# import os
 from typing import List, Dict, Any
 import logging
 
@@ -38,9 +37,9 @@ def validate_input(
     Validate and extract feature values from the input dictionary.
 
     Parameters:
-    - features (Dict[str, Any]): 
+    - features (Dict[str, Any]):
     Dictionary containing feature names and their corresponding values.
-    - expected_features (List[str]): 
+    - expected_features (List[str]):
     List of feature names expected by the model.
 
     Returns:
@@ -50,7 +49,9 @@ def validate_input(
         logging.error("Input features should be a dictionary.")
         raise ValueError("Input features should be a dictionary.")
 
-    missing_features = [feature for feature in expected_features if feature not in features]
+    missing_features = [feature 
+                        for feature in expected_features 
+                        if feature not in features]
     if missing_features:
         logging.error(f"Missing features: {missing_features}")
         raise ValueError(f"Missing features: {missing_features}")
