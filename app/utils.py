@@ -49,8 +49,8 @@ def validate_input(
         logging.error("Input features should be a dictionary.")
         raise ValueError("Input features should be a dictionary.")
 
-    missing_features = [feature 
-                        for feature in expected_features 
+    missing_features = [feature
+                        for feature in expected_features
                         if feature not in features]
     if missing_features:
         logging.error(f"Missing features: {missing_features}")
