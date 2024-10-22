@@ -1,7 +1,7 @@
 import pytest
 import os
 import sys
-from app.utils import validate_input
+from ..app.utils import validate_input
 
 # Ensure the 'app' directory is included in the system path
 sys.path.insert(
