@@ -35,8 +35,12 @@ def train_and_save_model():
     X = train_df.drop(columns=drop_columns + ['Survived'])
     y = train_df['Survived']
 
-    numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
-    categorical_cols = X.select_dtypes(include=['object', 'category']).columns.tolist()
+    numerical_cols = X.select_dtypes(
+        include=['int64', 'float64']
+        ).columns.tolist()
+    categorical_cols = X.select_dtypes(
+        include=['object', 'category']
+        ).columns.tolist()
     print("\nNumerical Columns:", numerical_cols)
     print("Categorical Columns:", categorical_cols)
 
@@ -67,7 +71,7 @@ def train_and_save_model():
     if 'Survived' in test_df.columns:
         evaluate_test_set(pipeline, test_df, drop_columns)
     else:
-        print("\nTest labels (Survived column) not found. Preprocessing needed")
+        print("\nTest labels not found. Preprocessing needed")
 
 
 def evaluate_test_set(pipeline, test_df, drop_columns):
