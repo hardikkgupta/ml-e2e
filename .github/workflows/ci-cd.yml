@@ -79,12 +79,14 @@ jobs:
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
     - name: Deploy to EC2
-      uses: easingthemes/ssh-deploy@v2
+      uses: easingthemes/ssh-action@v1
       with:
-        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-        REMOTE_HOST: ${{ secrets.EC2_PUBLIC_IP }}
-        REMOTE_USER: ec2-user
-        REMOTE_PORT: 22
-        SOURCE: ./
-        TARGET: /home/ec2-user/ml-e2e
-        ARGS: "-avz --delete"
+        command: |
+          docker pull ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
+          docker stop ml-e2e || true
+          docker rm ml-e2e || true
+          docker run -d -p 80:5000 --name ml-e2e ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
+        host: ${{ secrets.EC2_PUBLIC_IP }}
+        user: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+
