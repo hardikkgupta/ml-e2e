@@ -44,17 +44,17 @@ jobs:
     - name: Log in to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+      with:
+        region: ${{ secrets.AWS_REGION }}
 
     - name: Tag Docker Image
       run: |
-        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
         docker tag ml-e2e:latest $ECR_REGISTRY/ml-e2e:latest
 
     - name: Push Docker Image to ECR
-      env: |
-        AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
         docker push $ECR_REGISTRY/ml-e2e:latest
 
     - name: Deploy to EC2
