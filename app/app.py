@@ -23,6 +23,7 @@ except Exception as e:
     print(f"Failed to load the model: {e}")
     exit(1)
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
@@ -33,17 +34,10 @@ def predict():
         # Validate and extract feature values
         feature_values = validate_input(features, expected_features)
 
-        ###########
         # Convert feature values into a DataFrame with the expected feature columns
         feature_values_df = pd.DataFrame([feature_values], columns=expected_features)
-        # print(f"Feature Values DataFrame:\n{feature_values_df}")
-        # print(f"Data Types of Feature Values:\n{feature_values_df.dtypes}")
-        prediction = model.predict(feature_values_df)
-        ###########
 
-        # Make prediction using the model
-        # prediction = model.predict([feature_values])
-        
+        prediction = model.predict(feature_values_df)
 
         # Format the prediction for response
         result = format_prediction(prediction)
@@ -55,6 +49,8 @@ def predict():
         error_message = handle_exception(e)
         return jsonify(error_message), 400
 
+
 if __name__ == '__main__':
     # Run the Flask app
     app.run(host='0.0.0.0', port=5000)
+
