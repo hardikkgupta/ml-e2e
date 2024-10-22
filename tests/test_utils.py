@@ -4,7 +4,11 @@ import sys
 from utils import validate_input
 
 # Ensure the 'app' directory is included in the system path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
+sys.path.insert(
+    0, os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', 'app')
+        )
+        )
 
 
 def test_validate_input_success():
@@ -21,7 +25,7 @@ def test_validate_input_success():
         'FamilySize': 2
     }
     expected = [
-        'Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Sex_female', 
+        'Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Sex_female',
         'Sex_male', 'Embarked_Q', 'Embarked_S', 'FamilySize'
     ]
     assert validate_input(features, expected) == [
@@ -41,7 +45,7 @@ def test_validate_input_missing_features():
         'FamilySize': 2
     }
     expected = [
-        'Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Sex_female', 
+        'Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Sex_female',
         'Sex_male', 'Embarked_Q', 'Embarked_S', 'FamilySize'
     ]
     with pytest.raises(ValueError) as excinfo:
