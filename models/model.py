@@ -9,7 +9,6 @@ Original file is located at
 
 import os
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
@@ -20,6 +19,7 @@ import joblib
 
 dir = '/content/drive/MyDrive/data/'
 
+
 def train_and_save_model():
     train_path = os.path.join(dir, 'train.csv')
     test_path = os.path.join(dir, 'test.csv')
@@ -29,10 +29,9 @@ def train_and_save_model():
 
     print("Training Data Shape:", train_df.shape)
     print("Test Data Shape:", test_df.shape)
-    # print("\nMissing Values in Training Data:\n", train_df.isnull().sum())
 
     drop_columns = ['PassengerId', 'Name', 'Ticket', 'Cabin']
-    # Dropping (drop_columns and 'Survived') columns
+    # Dropping columns and 'Survived'
     X = train_df.drop(columns=drop_columns + ['Survived'])
     y = train_df['Survived']
 
@@ -70,12 +69,8 @@ def train_and_save_model():
     else:
         print("\nTest labels (Survived column) not found. Preprocessing needed")
 
-    # Optional: Generate predictions on test data for submission
-    # generate_test_predictions(pipeline, test_df, drop_columns)
 
 def evaluate_test_set(pipeline, test_df, drop_columns):
-    # passenger_ids = test_df['PassengerId']
-
     X_test = test_df.drop(columns=drop_columns + ['Survived'])
     y_test = test_df['Survived']
 
@@ -83,22 +78,6 @@ def evaluate_test_set(pipeline, test_df, drop_columns):
     accuracy = accuracy_score(y_test, y_pred)
     print(f'\nTest Set Accuracy: {accuracy:.3f}')
 
-# def generate_test_predictions(pipeline, test_df, drop_columns):
-#     passenger_ids = test_df['PassengerId']
-
-#     X_test = test_df.drop(columns=drop_columns + ['Survived'], errors='ignore')
-
-#     predictions = pipeline.predict(X_test)
-
-#     submission_df = pd.DataFrame({
-#         'PassengerId': passenger_ids,
-#         'Survived': predictions
-#     })
-
-#     submission_path = os.path.join('app', 'submission.csv')
-#     submission_df.to_csv(submission_path, index=False)
-#     print(f'\nTest Predictions saved to {submission_path}')
 
 if __name__ == "__main__":
     train_and_save_model()
-
