@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import os
-from utils import load_model,validate_input,format_prediction,handle_exception
+from utils import load_model, validate_input, format_prediction
+from utils import handle_exception
 import pandas as pd
 
 
@@ -34,7 +35,7 @@ def predict():
         # Validate and extract feature values
         feature_values = validate_input(features, expected_features)
 
-        # Convert feature values into a DataFrame with the 
+        # Convert feature values into a DataFrame with the
         # expected feature columns
         feature_values_df = pd.DataFrame(
             [feature_values], columns=expected_features
