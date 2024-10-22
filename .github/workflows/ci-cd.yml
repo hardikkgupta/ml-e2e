@@ -23,7 +23,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip3 install -r requirements.txt
-
+        
     - name: Set PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
@@ -47,11 +47,15 @@ jobs:
 
     - name: Tag Docker Image
       run: |
-        docker tag ml-e2e:latest ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
+        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+        docker tag ml-e2e:latest $ECR_REGISTRY/ml-e2e:latest
 
     - name: Push Docker Image to ECR
+      env: |
+        AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        docker push ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
+        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+        docker push $ECR_REGISTRY/ml-e2e:latest
 
     - name: Deploy to EC2
       uses: easingthemes/ssh-deploy@v2
