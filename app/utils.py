@@ -4,7 +4,9 @@ from typing import List, Dict, Any
 import logging
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s'
+    )
 
 
 def load_model(model_path: str = 'model.pkl'):
@@ -29,14 +31,17 @@ def load_model(model_path: str = 'model.pkl'):
         raise RuntimeError(f"An error occurred while loading the model: {e}")
 
 
-def validate_input(features: Dict[str, Any], expected_features: List[str]) -> List[Any]:
+def validate_input(
+        features: Dict[str, Any], expected_features: List[str]
+        ) -> List[Any]:
     """
     Validate and extract feature values from the input dictionary.
 
     Parameters:
-    - features (Dict[str, Any]): Dictionary containing feature names and their 
-      corresponding values.
-    - expected_features (List[str]): List of feature names expected by the model.
+    - features (Dict[str, Any]): 
+    Dictionary containing feature names and their corresponding values.
+    - expected_features (List[str]): 
+    List of feature names expected by the model.
 
     Returns:
     - List[Any]: List of feature values ordered as per expected_features.
