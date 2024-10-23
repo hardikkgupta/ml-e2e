@@ -78,16 +78,21 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
+    - name: Write SSH Key
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/temp_ec2_key.pem
+        chmod 600 ~/temp_ec2_key.pem
+
     - name: Test SSH Connection
       run: |
-        ssh -o StrictHostKeyChecking=no -vvv -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} 'echo "SSH connection successful"'
+        ssh -o StrictHostKeyChecking=no -vvv -i ~/temp_ec2_key.pem ec2-user@${{ secrets.EC2_PUBLIC_IP }} 'echo "SSH connection successful"'
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v0.1.5
       with:
         host: ${{ secrets.EC2_PUBLIC_IP }}
         username: ec2-user
-        key: ${{ secrets.EC2_SSH_KEY }}
+        key_path: ~/temp_ec2_key.pem
         port: 22
         script: |
           docker pull ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
