@@ -78,17 +78,20 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.3
+    - name: Set up SSH Agent
+      uses: webfactory/ssh-agent@v0.5.4
       with:
-        host: ${{ secrets.EC2_PUBLIC_IP }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        port: 22
-        script: |
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Add EC2 Host to Known Hosts
+      run: |
+        ssh-keyscan -p 22 ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -p 22 ${{ secrets.SSH_USERNAME }}@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
           docker pull ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
           docker stop ml-e2e || true
           docker rm ml-e2e || true
           docker run -d -p 80:5000 --name ml-e2e ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
-        debug: true
-
+        EOF
