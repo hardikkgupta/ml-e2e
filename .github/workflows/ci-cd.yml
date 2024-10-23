@@ -80,15 +80,13 @@ jobs:
 
     - name: Deploy to EC2 using SSM
       run: |
-        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+        ECR_REGISTRY=$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${AWS_REGION}.amazonaws.com
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
-          --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+          --instance-ids "${EC2_INSTANCE_ID}" \
           --comment "Deploy Docker container" \
-          --parameters 'commands=["docker pull $ECR_REGISTRY/ml-e2e:latest","docker stop ml-e2e || true","docker rm ml-e2e || true","docker run -d -p 80:5000 --name ml-e2e $ECR_REGISTRY/ml-e2e:latest"]' \
-          --region ${{ secrets.AWS_REGION }}
+          --parameters commands='["docker pull $ECR_REGISTRY/ml-e2e:latest","docker stop ml-e2e || true","docker rm ml-e2e || true","docker run -d -p 80:5000 --name ml-e2e $ECR_REGISTRY/ml-e2e:latest"]' \
+          --region "${AWS_REGION}"
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
-
+        EC2_INSTANCE_ID: ${{ secrets.EC2_INSTANCE_ID }}
