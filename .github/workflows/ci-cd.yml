@@ -90,4 +90,5 @@ jobs:
           docker stop ml-e2e || true
           docker rm ml-e2e || true
           docker run -d -p 80:5000 --name ml-e2e ${{ secrets.ECR_REGISTRY }}/ml-e2e:latest
+        debug: true
 
