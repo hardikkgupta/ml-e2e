@@ -2,7 +2,7 @@
 ![cover](data/cover.png)
 
 ## Overview
-This repository contains a complete end-to-end pipeline for building, deploying, and serving a machine learning model using Docker, Flask, AWS, and CI/CD with GitHub Actions. The pipeline includes data gathering, model building, API development, Dockerization, and deployment using AWS EC2.
+This is a complete end-to-end pipeline for building, deploying, and serving a machine learning model using Docker, Flask, AWS, and CI/CD with GitHub Actions. The pipeline includes data gathering, model building, API development, Dockerization, and deployment using AWS EC2.
 
 The **Titanic Survival Prediction API** is a machine learning API that predicts whether a passenger survived the Titanic disaster based on various features such as age, sex, passenger class, and more. The project encompasses data preprocessing, model training, serialization, and deployment as a RESTful API using Flask. While the core functionalities are implemented, additional processes like model monitoring, load testing, and automated retraining are planned for future development.
 
